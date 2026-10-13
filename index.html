@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Book a room - Tyne Student Lets</title>
+<style>
+  :root {
+    --navy: #14395b;
+    --navy-text: #14395b;
+    --body: #3d4450;
+    --muted: #6b7280;
+    --green: #2a6a3f;
+    --amber: #e8a317;
+    --amber-dark: #d09212;
+    --panel: #f5f7fb;
+    --border: #cfd5df;
+    --badge-bg: #fde8e8;
+    --badge-text: #8e1b1b;
+    --error: #b42318;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: Helvetica, Arial, sans-serif;
+    color: var(--body);
+    background: #fff;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+  header.nav {
+    background: var(--navy);
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 48px;
+    height: 98px;
+  }
+  .brand { font-size: 34px; letter-spacing: -0.5px; }
+  nav a {
+    color: #fff;
+    text-decoration: none;
+    font-size: 24px;
+    margin-left: 38px;
+  }
+  nav a:hover { text-decoration: underline; }
+  nav a:focus-visible, button:focus-visible, input:focus-visible {
+    outline: 3px solid var(--amber);
+    outline-offset: 2px;
+  }
+  main {
+    flex: 1;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 56px;
+    padding: 44px 48px 44px;
+    max-width: 1500px;
+    width: 100%;
+    margin: 0 auto;
+  }
+  .badge {
+    display: inline-block;
+    background: var(--badge-bg);
+    color: var(--badge-text);
+    font-size: 22px;
+    padding: 8px 20px;
+    border-radius: 6px;
+  }
+  h1 {
+    color: var(--navy-text);
+    font-size: 40px;
+    font-weight: 400;
+    margin: 16px 0 12px;
+  }
+  .desc { font-size: 25px; line-height: 42px; margin: 0; max-width: 660px; }
+  .price { margin: 36px 0 24px; color: var(--navy-text); }
+  .price .amount { font-size: 58px; }
+  .price .unit { font-size: 25px; color: var(--body); margin-left: 8px; }
+  ul.features { list-style: none; padding: 0; margin: 0; color: var(--green); font-size: 25px; }
+  ul.features li { margin-bottom: 8px; }
+  ul.features li::before { content: "\2713"; margin-right: 18px; }
+
+  .panel {
+    background: var(--panel);
+    border: 2px solid #dbe0ea;
+    border-radius: 18px;
+    padding: 30px 32px 34px;
+    align-self: start;
+  }
+  .panel h2 { color: var(--navy-text); font-size: 30px; font-weight: 400; margin: 0 0 24px; }
+  label { display: block; font-size: 22px; margin-bottom: 8px; }
+  .field { margin-bottom: 20px; }
+  input {
+    width: 100%;
+    font: inherit;
+    font-size: 25px;
+    padding: 14px 20px;
+    border: 2px solid var(--border);
+    border-radius: 8px;
+    background: #fff;
+    color: var(--body);
+  }
+  input::placeholder { color: #8a909b; }
+  input[aria-invalid="true"] { border-color: var(--error); }
+  .err { color: var(--error); font-size: 18px; margin: 6px 0 0; min-height: 0; }
+  .pay {
+    width: 100%;
+    background: var(--amber);
+    color: #1d1a10;
+    font: inherit;
+    font-size: 28px;
+    border: 0;
+    border-radius: 8px;
+    padding: 20px;
+    margin-top: 4px;
+    cursor: pointer;
+  }
+  .pay:hover { background: var(--amber-dark); }
+  .pay:disabled { opacity: .6; cursor: default; }
+  .note { text-align: center; color: var(--muted); font-size: 22px; margin: 18px 0 0; }
+
+  .confirm h2 { margin-bottom: 14px; }
+  .confirm p { font-size: 24px; line-height: 36px; margin: 0 0 14px; }
+  .ref {
+    background: #fff; border: 2px dashed var(--border); border-radius: 8px;
+    padding: 14px 20px; font-size: 26px; color: var(--navy-text); letter-spacing: 1px;
+  }
+  .link-btn {
+    background: none; border: 0; padding: 0; font: inherit; font-size: 20px;
+    color: var(--navy-text); text-decoration: underline; cursor: pointer; margin-top: 8px;
+  }
+
+  footer {
+    border-top: 2px solid #e5e8ee;
+    display: flex;
+    justify-content: space-between;
+    padding: 24px 48px;
+    color: var(--muted);
+    font-size: 22px;
+  }
+
+  @media (max-width: 900px) {
+    header.nav { flex-direction: column; height: auto; padding: 18px 24px; gap: 10px; }
+    nav a { margin: 0 14px 0 0; font-size: 18px; }
+    .brand { font-size: 28px; }
+    main { grid-template-columns: 1fr; padding: 28px 24px; gap: 32px; }
+    footer { padding: 20px 24px; font-size: 16px; flex-direction: column; gap: 6px; }
+    .desc, ul.features, .badge, label, .note { font-size: 18px; }
+    .desc { line-height: 30px; }
+    h1 { font-size: 30px; }
+    .price .amount { font-size: 44px; }
+    .price .unit { font-size: 18px; }
+    input { font-size: 18px; }
+    .pay { font-size: 20px; }
+  }
+</style>
+</head>
+<body>
+<div id="app"></div>
+
+<script>
+// ---------- Data ----------
+const site = {
+  name: "Tyne Student Lets",
+  city: "Newcastle upon Tyne",
+  nav: ["Rooms", "Areas", "How it works", "Contact"],
+};
+
+const listing = {
+  roomsLeft: 2,
+  title: "Studio flat, Shieldfield",
+  description:
+    "Fully furnished self-contained studio. 10 minutes from Northumbria campus. Double bed, private bathroom, fast Wi-Fi.",
+  price: 450,
+  priceNote: "per month, bills included",
+  features: ["Verified landlord", "Video tour available", "Tenant paperwork stored securely"],
+  deposit: 75,
+};
+
+// ---------- Helpers ----------
+function el(tag, attrs = {}, ...children) {
+  const node = document.createElement(tag);
+  for (const [k, v] of Object.entries(attrs)) {
+    if (k === "class") node.className = v;
+    else if (k.startsWith("on")) node.addEventListener(k.slice(2), v);
+    else if (v !== false && v != null) node.setAttribute(k, v);
+  }
+  for (const c of children.flat()) {
+    node.append(c instanceof Node ? c : document.createTextNode(c));
+  }
+  return node;
+}
+
+function makeField({ id, label, type = "text", placeholder, autocomplete }) {
+  const input = el("input", { id, name: id, type, placeholder, autocomplete, required: "" });
+  const err = el("p", { class: "err", id: id + "-err", role: "alert" });
+  input.setAttribute("aria-describedby", err.id);
+  const wrap = el("div", { class: "field" }, el("label", { for: id }, label), input, err);
+  return { wrap, input, err };
+}
+
+function setError(f, msg) {
+  f.err.textContent = msg || "";
+  f.input.setAttribute("aria-invalid", msg ? "true" : "false");
+}
+
+// ---------- Validation ----------
+const validators = {
+  name: (v) => (v.trim().split(/\s+/).length >= 2 ? "" : "Enter your first and last name."),
+  email: (v) =>
+    /^[^\s@]+@[^\s@]+\.ac\.uk$/i.test(v.trim()) ? "" : "Use your university email, ending in .ac.uk.",
+  date: (v) => (v.trim().length >= 4 ? "" : "Tell us when you want to move in, e.g. September 2026."),
+};
+
+// ---------- Views ----------
+function header() {
+  return el(
+    "header",
+    { class: "nav" },
+    el("div", { class: "brand" }, site.name),
+    el("nav", { "aria-label": "Main" }, site.nav.map((n) => el("a", { href: "#" + n.toLowerCase().replace(/\s+/g, "-") }, n)))
+  );
+}
+
+function footer() {
+  return el(
+    "footer",
+    {},
+    el("span", {}, `\u00A9 ${new Date().getFullYear()} ${site.name}. All rights reserved.`),
+    el("span", {}, site.city)
+  );
+}
+
+function details() {
+  return el(
+    "section",
+    {},
+    el("span", { class: "badge" }, `Only ${listing.roomsLeft} rooms left`),
+    el("h1", {}, listing.title),
+    el("p", { class: "desc" }, listing.description),
+    el(
+      "p",
+      { class: "price" },
+      el("span", { class: "amount" }, `\u00A3${listing.price}`),
+      el("span", { class: "unit" }, listing.priceNote)
+    ),
+    el("ul", { class: "features" }, listing.features.map((f) => el("li", {}, f)))
+  );
+}
+
+function bookingForm(onSuccess) {
+  const fields = {
+    name: makeField({ id: "name", label: "Full name", placeholder: "Enter your full name", autocomplete: "name" }),
+    email: makeField({ id: "email", label: "University email", type: "email", placeholder: "name@university.ac.uk", autocomplete: "email" }),
+    date: makeField({ id: "date", label: "Move-in date", placeholder: "September 2026" }),
+  };
+
+  // Clear errors as the user fixes them
+  for (const [key, f] of Object.entries(fields)) {
+    f.input.addEventListener("input", () => {
+      if (f.input.getAttribute("aria-invalid") === "true") setError(f, validators[key](f.input.value));
+    });
+  }
+
+  const button = el("button", { class: "pay", type: "submit" }, `Pay \u00A3${listing.deposit} holding deposit`);
+
+  const form = el(
+    "form",
+    {
+      novalidate: "",
+      onsubmit: (e) => {
+        e.preventDefault();
+        let firstBad = null;
+        const values = {};
+        for (const [key, f] of Object.entries(fields)) {
+          const msg = validators[key](f.input.value);
+          setError(f, msg);
+          if (msg && !firstBad) firstBad = f.input;
+          values[key] = f.input.value.trim();
+        }
+        if (firstBad) return firstBad.focus();
+
+        button.disabled = true;
+        button.textContent = "Reserving\u2026";
+        // Demo only: no payment is taken and nothing is sent anywhere.
+        setTimeout(() => onSuccess(values), 700);
+      },
+    },
+    fields.name.wrap,
+    fields.email.wrap,
+    fields.date.wrap,
+    button,
+    el("p", { class: "note" }, "Bank transfer details sent after booking")
+  );
+
+  return el("aside", { class: "panel" }, el("h2", {}, "Reserve this room"), form);
+}
+
+function confirmation(values, onReset) {
+  const ref = "TSL-" + Math.random().toString(36).slice(2, 8).toUpperCase();
+  return el(
+    "aside",
+    { class: "panel confirm", "aria-live": "polite" },
+    el("h2", {}, "Room reserved"),
+    el("p", {}, `Thanks, ${values.name.split(" ")[0]}. We'll email bank transfer details for the \u00A3${listing.deposit} holding deposit to ${values.email}.`),
+    el("p", {}, `Move-in: ${values.date}`),
+    el("div", { class: "ref" }, ref),
+    el("button", { class: "link-btn", type: "button", onclick: onReset }, "Book another room")
+  );
+}
+
+// ---------- App ----------
+function render() {
+  const app = document.getElementById("app");
+  app.replaceChildren();
+
+  const panelSlot = el("div");
+  const showForm = () => panelSlot.replaceChildren(bookingForm(showConfirm));
+  const showConfirm = (values) => {
+    panelSlot.replaceChildren(confirmation(values, showForm));
+    panelSlot.querySelector(".confirm").scrollIntoView({ behavior: "smooth", block: "nearest" });
+  };
+  showForm();
+
+  app.append(
+    header(),
+    el("main", {}, details(), panelSlot),
+    footer()
+  );
+}
+
+render();
+</script>
+</body>
+</html>
